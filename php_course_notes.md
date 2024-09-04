@@ -1,5 +1,5 @@
 
-# Php for begginers course 
+# Php for beginners course 
 Link: https://laracasts.com/series/php-for-beginners-2023-edition
 
 
