@@ -2,6 +2,30 @@
 # Php for beginners course 
 Link: https://laracasts.com/series/php-for-beginners-2023-edition
 
+## Indice
+[Chapter 1 - The fundamentals](#chapter-1---the-fundamentals)
+- [1.1 PHP Tag](#11-php-tag)
+- [1.2 Variables](#12-variables)
+- [1.3 Conditionals and Booleans](#13-conditionals-and-booleans)
+- [1.4 Arrays](#14-arrays)
+- [1.5 Associative Arrays](#15-associative-arrays)
+- [1.6 Functions and Filters](#16-functions-and-filters)
+- [1.7 Lambda Functions](#17-lambda-functions)
+  - [1.7.1 Definición y sintaxis básica](#171-definición-y-sintaxis-básica)
+  - [1.7.2 Uso como parámetros en otras funciones](#172-uso-como-parámetros-en-otras-funciones)
+  - [1.7.3 Asignación a variables](#173-asignación-a-variables)
+  - [1.7.4 Uso en Filtrado de datos](#174-uso-en-filtrado-de-datos)
+  - [1.7.5 Variables Capturadas y Uso de "use"](#175-variables-capturadas-y-uso-de-use)
+- [1.8 Separate Logic from the Template](#18-separate-logic-from-the-template)
+
+
+[Chapter 2 - Dynamic Web Applications](#chapter-2---dynamic-web-applications)
+- [2.1 Page Links](#21-page-link)
+- [2.2 Superglobals and current page styling](#22-superglobals-and-current-page-styling)
+- [2.4 Make a PHP Router](#24-make-a-php-router)
+- [2.5 PDO (PHP Data Objects)](#25-pdo-php-data-objects)
+- [2.6 Extract a PHP Database Class](#26-extract-a-php-database-class)
+
 
 
 
