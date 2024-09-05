@@ -426,6 +426,25 @@ try {
     $users = $db->query('SELECT * FROM users WHERE id = :id', ['id' => 1]);
     print_r($users);
 
+## Chapter 3 - Mini notes project
+
+### Render the notes and notes page (conceptos imporantes de este cap)
+**PlaceHolders/Wild card:** se utilizan principalmente en consultas preparadas para interactuar con bases de datos. Son marcadores de posición que se reemplazan por valores reales en tiempo de ejecución, lo que ayuda a evitar ataques de inyección SQL y mejora la seguridad y eficiencia de las consultas.
+- **Tipos de placeholders:**
+  - ***Placeholders Posicionales (?):*** Estos son símbolos de interrogación que se usan como marcadores de posición y se reemplazan en el orden en que aparecen.
+  ```
+      $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+      $stmt->execute([1]); // Reemplaza el primer '?' por el valor '1'
+      $result = $stmt->fetch();
+  ```
+
+  - ***Placeholders Nombrados (:nombre):*** Son marcadores de posición nombrados, lo que permite asociar explícitamente un valor con un nombre.
+    ```
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->execute(['id' => 1]); // Reemplaza ':id' por el valor '1'
+    $result = $stmt->fetch();
+    ```
+
 
 
 
