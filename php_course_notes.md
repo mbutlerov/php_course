@@ -467,5 +467,46 @@ try {
 **Resumen del capitulo 3**
 se centra en la creación de un proyecto de notas donde los usuarios pueden escribir y gestionar sus notas. Cubre la creación y gestión de la base de datos con claves foráneas, la implementación de un sistema de autorización para que los usuarios solo puedan acceder a sus propias notas, y la validación y seguridad de los formularios. Se introduce la creación de una clase Validator para centralizar las validaciones y se enfatiza la importancia de manejar de forma segura las entradas del usuario para evitar ataques.
 
+## Chapter 4 - Project organization
+### 4.1 PHP Autoloading and Extraction
+**function extract():** es utilizada para convertir los elementos de un array en variables individuales.
+  - ***Como funciona:***cuando se llama a `extract($array)`, PHP crea una variable para cada elemento en el array `$array`. El nombre de la variable será la clave del array, y el valor de la variable será el valor correspondiente en el array.
+-***Ejemplo***
+index.php
+```
+<?php
+// Datos del usuario
+$userData = [
+    'name' => 'John Doe',
+    'email' => 'john.doe@example.com',
+    'age' => 30
+];
+
+// Función para cargar la vista
+function view($path, $attributes = []) {
+    extract($attributes); // Convierte las claves del array en variables
+    require $path; // Incluye el archivo de vista
+}
+
+// Cargar la vista con los datos del usuario
+view('profile.php', $userData);
+?>
+
+```
+profile.php
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?php echo htmlspecialchars($name); ?>'s Profile</title>
+</head>
+<body>
+    <h1>Welcome, <?php echo htmlspecialchars($name); ?>!</h1>
+    <p>Email: <?php echo htmlspecialchars($email); ?></p>
+    <p>Age: <?php echo htmlspecialchars($age); ?></p>
+</body>
+</html>
+```
+
 
 
