@@ -26,6 +26,8 @@ Link: https://laracasts.com/series/php-for-beginners-2023-edition
 - [2.5 PDO (PHP Data Objects)](#25-pdo-php-data-objects)
 - [2.6 Extract a PHP Database Class](#26-extract-a-php-database-class)
 
+[Chapter 3 - Mini notes project](#chapter-3---mini-notes-project)
+
 
 
 
@@ -444,7 +446,26 @@ try {
     $stmt->execute(['id' => 1]); // Reemplaza ':id' por el valor '1'
     $result = $stmt->fetch();
     ```
+  ***Ejemplo básico***
+  ```
+  // Conectarse a la base de datos usando PDO
+  $pdo = new PDO('mysql:host=localhost;dbname=testdb', 'user', 'password');
 
+  // Consulta preparada con placeholders nombrados
+  $sql = "SELECT * FROM users WHERE username = :username AND status = :status";
+  $stmt = $pdo->prepare($sql);
+
+  // Ejecutar la consulta con valores asociados a los placeholders
+  $stmt->execute(['username' => 'johndoe', 'status' => 'active']);
+
+  // Obtener los resultados
+  $results = $stmt->fetchAll();
+
+  //En este ejemplo, :username y :status son placeholders que se reemplazan por los valores 'johndoe' y 'active' respectivamente al ejecutar la consulta.
+```
+
+**Resumen del capitulo 3**
+se centra en la creación de un proyecto de notas donde los usuarios pueden escribir y gestionar sus notas. Cubre la creación y gestión de la base de datos con claves foráneas, la implementación de un sistema de autorización para que los usuarios solo puedan acceder a sus propias notas, y la validación y seguridad de los formularios. Se introduce la creación de una clase Validator para centralizar las validaciones y se enfatiza la importancia de manejar de forma segura las entradas del usuario para evitar ataques.
 
 
 
