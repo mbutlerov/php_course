@@ -26,8 +26,6 @@ Link: https://laracasts.com/series/php-for-beginners-2023-edition
 - [2.5 PDO (PHP Data Objects)](#25-pdo-php-data-objects)
 - [2.6 Extract a PHP Database Class](#26-extract-a-php-database-class)
 
-[Chapter 3 - Mini notes project](#chapter-3---mini-notes-project)
-
 
 
 
@@ -428,26 +426,30 @@ try {
     $users = $db->query('SELECT * FROM users WHERE id = :id', ['id' => 1]);
     print_r($users);
 
+
+
+
+
 ## Chapter 3 - Mini notes project
 
 ### Render the notes and notes page (conceptos imporantes de este cap)
 **PlaceHolders/Wild card:** se utilizan principalmente en consultas preparadas para interactuar con bases de datos. Son marcadores de posición que se reemplazan por valores reales en tiempo de ejecución, lo que ayuda a evitar ataques de inyección SQL y mejora la seguridad y eficiencia de las consultas.
 - **Tipos de placeholders:**
   - ***Placeholders Posicionales (?):*** Estos son símbolos de interrogación que se usan como marcadores de posición y se reemplazan en el orden en que aparecen.
-  ```
-      $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-      $stmt->execute([1]); // Reemplaza el primer '?' por el valor '1'
-      $result = $stmt->fetch();
-  ```
+```
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([1]); // Reemplaza el primer '?' por el valor '1'
+    $result = $stmt->fetch();
+```
 
   - ***Placeholders Nombrados (:nombre):*** Son marcadores de posición nombrados, lo que permite asociar explícitamente un valor con un nombre.
-    ```
+```
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
     $stmt->execute(['id' => 1]); // Reemplaza ':id' por el valor '1'
     $result = $stmt->fetch();
-    ```
+```
   ***Ejemplo básico***
-  ```
+```
   // Conectarse a la base de datos usando PDO
   $pdo = new PDO('mysql:host=localhost;dbname=testdb', 'user', 'password');
 
@@ -463,15 +465,13 @@ try {
 
   //En este ejemplo, :username y :status son placeholders que se reemplazan por los valores 'johndoe' y 'active' respectivamente al ejecutar la consulta.
 ```
-
-**Resumen del capitulo 3**
+**Resumen del capitulo 3:**
 se centra en la creación de un proyecto de notas donde los usuarios pueden escribir y gestionar sus notas. Cubre la creación y gestión de la base de datos con claves foráneas, la implementación de un sistema de autorización para que los usuarios solo puedan acceder a sus propias notas, y la validación y seguridad de los formularios. Se introduce la creación de una clase Validator para centralizar las validaciones y se enfatiza la importancia de manejar de forma segura las entradas del usuario para evitar ataques.
-
 ## Chapter 4 - Project organization
 ### 4.1 PHP Autoloading and Extraction
 **function extract():** es utilizada para convertir los elementos de un array en variables individuales.
   - ***Como funciona:***cuando se llama a `extract($array)`, PHP crea una variable para cada elemento en el array `$array`. El nombre de la variable será la clave del array, y el valor de la variable será el valor correspondiente en el array.
--***Ejemplo***
+- ***Ejemplo***
 index.php
 ```
 <?php
@@ -507,6 +507,180 @@ profile.php
 </body>
 </html>
 ```
+
+**function compact():** toma un array asociativo y convierte sus claves en nombres de variables.
+```
+$name = "John";
+$age = 25;
+$city = "New York";
+
+$data = compact('name', 'age', 'city');
+// $data es ahora ['name' => 'John', 'age' => 25, 'city' => 'New York']
+
+
+```
+
+### 4.2 Namespacing: Whay,Why,How?
+
+**Namespaces:** en PHP permiten organizar el código en diferentes espacios de nombres, evitando conflictos entre clases, funciones o constantes con el mismo nombre. Son útiles para mantener el código ordenado y evitar colisiones en proyectos grandes.
+
+### Ejemplo
+
+Supongamos que tienes dos clases con el mismo nombre en diferentes contextos: `User` y `Product`.
+
+#### Estructura de Archivos:
+project/
+
+├── src/
+
+│   ├── User.php
+
+│   └── Product.php
+
+└── index.php
+
+#### Código:
+
+1. **Archivo `src/User.php`:**
+
+   ```php
+   <?php
+   namespace App\Models;
+
+   class User {
+       public function getName() {
+           return "Nombre del usuario";
+       }
+   }
+    ```
+2. **Archivo src/Product.php:**
+```
+<?php
+namespace App\Inventory;
+
+class Product {
+    public function getProduct() {
+        return "Nombre del producto";
+    }
+}
+```
+3. **Archivo index.php:**
+```
+<?php
+require_once 'src/User.php';
+require_once 'src/Product.php';
+
+use App\Models\User;
+use App\Inventory\Product;
+
+$user = new User();
+$product = new Product();
+
+echo $user->getName();    // Salida: Nombre del usuario
+echo "<br>";
+echo $product->getProduct(); // Salida: Nombre del producto
+
+```
+***En resumen:*** `Namespaces` organizan el code, evitando conflictos de nombres y en el `Ejemplo`  User en App\Models y Product en App\Inventory, ambos con métodos diferentes pero sin conflictos gracias a sus namespaces.
+
+### 4.4  Make your first service container
+
+Un contenedor de servicios (o `service container`) es un patrón de diseño utilizado para gestionar la creación y la resolución de dependencias en una aplicación. Su propósito principal es desacoplar el código y facilitar la inyección de dependencias.
+
+**¿Por qué usar un contenedor?**
+- **Desacoplamiento**: Permite que las clases no dependan directamente de las implementaciones específicas de sus dependencias.
+- **Flexibilidad**: Facilita la modificación de dependencias sin cambiar el código que las usa.
+- **Gestión centralizada**: Permite configurar y gestionar las dependencias en un solo lugar.
+
+**Principales Funciones de un Contenedor**
+1. **Registro de Dependencias**: Asociar identificadores (claves) con funciones que crean instancias de servicios o clases.
+2. **Resolución de Dependencias**: Obtener instancias de servicios o clases a través de identificadores.
+
+**Ejemplo Práctico**
+
+A continuación, un ejemplo simple que ilustra cómo usar un contenedor de servicios en PHP.
+
+ ***1. Definir el Contenedor***
+
+```php
+<?php
+
+class Container {
+    private static $bindings = [];
+
+    // Registrar un servicio en el contenedor
+    public static function bind($key, $resolver) {
+        self::$bindings[$key] = $resolver;
+    }
+
+    // Resolver un servicio desde el contenedor
+    public static function resolve($key) {
+        if (!isset(self::$bindings[$key])) {
+            throw new Exception("No binding found for {$key}");
+        }
+        return self::$bindings[$key]();
+    }
+}
+?>
+```
+***2. Definir un Servicio***
+
+```php
+<?php
+
+class Logger {
+    public function log($message) {
+        echo "Logging message: $message\n";
+    }
+}
+
+?>
+```
+***3. Configurar el Contenedor***
+
+```php
+<?php
+
+// Registrar el servicio en el contenedor
+Container::bind('logger', function() {
+    return new Logger();
+});
+?>
+```
+***4. Usar el Servicio***
+```php
+<?php
+
+// Obtener una instancia del servicio desde el contenedor
+$logger = Container::resolve('logger');
+
+// Usar el servicio
+$logger->log('This is a test message.'); // Salida: Logging message: This is a test message!
+?>
+```
+**Explicación del ejemplo**
+
+***Clase Container***
+
+- **Método `bind`**: Registra un servicio en el contenedor. La función anónima (resolver) es responsable de crear una instancia del servicio.
+- **Método `resolve`**: Obtiene una instancia del servicio registrado. Si el servicio no está registrado, lanza una excepción.
+
+***Clase Logger***
+
+- **Descripción**: Un servicio simple que tiene un método `log` para imprimir mensajes.
+
+***Registro del Servicio***
+
+- **Descripción**: En el contenedor, se asocia el identificador `'logger'` con una función que crea una nueva instancia de `Logger`.
+
+***Uso del Servicio***
+
+- **Descripción**: Se obtiene el servicio `'logger'` del contenedor y se usa para registrar un mensaje.
+
+
+
+
+
 
 
 
