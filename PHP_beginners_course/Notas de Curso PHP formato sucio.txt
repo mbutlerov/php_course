@@ -1,0 +1,100 @@
+Capitulo 3 - Notes MINI-PROJECT
+Basicamente es un proyecto donde los usuarios pueden escribir sus notitas
+
+3.1 Database Tables and indexes
+Basicamente como crear una base de datos, el tema de foreign key,etc para relacionar entre ellas.
+
+3.2 Render the notes and note page
+ Renderizado  paginas tomando en cuenta el tema de separar en diferentes files, para view controller/about.php donde controllers serian un directorio que tendrian la logica(backend del proceso)
+views/partials/ donde se tiene los views de cada logica. Interaccion con la base de datos utilizando un id especifico en el query guardando en una variable $notes
+y para acceder luego usando un foreach $notes as $note : ?> <?= $note ?> , Tambien se toma en cuenta un concepto de "Placeholder"   
+
+3.3 Introduction to Authorization
+Aqui basicamente agregar al query el "user" para validar si esa persona puede acceder a la nota, si es que la persona no es el user que creo la nota debe se usa if ($note['user_id']!== 1){abort(403);} pero ese "1" deberia ser cambiado por una variable para que sea de forma global
+
+3.4 Programming is rewriting 
+y crea una function de authorize($condition,$status = Response::FORBIDDEN){
+	if (! $condition){
+		abort($status)
+	}
+}
+
+Dentro de un archivo class Database.php se declaro todos las funciones necesarias para interactuar con la base de dato, una de esas funciones es public function get(){
+	return $this->statement->fetchAll;
+}
+
+3.5 Intro to forms and request methods
+Basicamente trabajando en un .view.php donde se trabaja en el html para hacer un post y como poder hacer un debug utilizando var_dump() y averiguando las partes interesantes y uno de esos tirar ["REQUEST_METHOD"]=>string(3) "GET" o "POST" entonces eso nos sirve para poder interactuar con los post entonces en este caso se puede interacturar con el servidor haciendo un if ($_SERVER["REQUEST_METHOD"] === 'POST'){
+	var_dump($_POST);
+}
+
+3.6 Always Escape unstrusted input
+Verificia el input del usuario que pueda llegar a romper el codigo, aca usa como ejemplo que el usuario tira una nota que tiene una estructura <h1></h1><script>alert(afadsf)</script>, esto puede generar un problema ya que esto al renderizar generaria un popup entonces existe una function que se encarga de parsear ese tipo de entrada de php, <?= htmlspecialchars([$note['body']) ?> entonces todo se toma como string.
+
+3.7 Intro to Form Validation
+Habla de hacer validacion al POST antes de que sea cargado al DB, en este caso averigua que la longitud de la nota no sea igual a 0 porque si es igual a cero se manda una retroalimentacion y aparte evita que eso se cargue a la base de datos de forma vacia y tabien una cantidad limitada de caracteres en la nota. 
+
+3.8 Extract a simple validator class
+En este caso en vez de tener todas las validaciones anteriores, se crea una clase Validator.php donde internamente estan todas esas validaciones que se encontraban directo en la logica de cada pagina, entonces al final esto queda siendo reusable. Tambien menciona que es neceario al crear una function dentro de la clase osea un metodo siempre agregar "static" o lo que sea. public static function email($value) y luego al utilizar Validator::email(asdfaf).
+
+
+RESUMEN CHATSITO
+Capítulo 3 - Proyecto Mini-Notas
+3.1. Database Tables and Indexes
+Explicación sobre cómo crear tablas en una base de datos, gestionar claves foráneas y establecer relaciones entre las tablas.
+
+3.2. Renderizar notas y página de notas
+Se implementa un sistema MVC separando lógica y vistas. Se accede a la base de datos mediante queries, almacenando las notas en $notes y usándolas en un loop foreach para mostrarlas. También se introduce el concepto de placeholder para las queries.
+
+3.3. Introducción a la Autorización
+Se agrega validación para asegurar que solo el usuario que creó una nota puede acceder a ella, usando una comprobación de $note['user_id']. Se emplea la función abort(403) para denegar el acceso a usuarios no autorizados.
+
+3.4. La Programación es Reescribir
+Se refactoriza el código creando una función authorize($condition, $status) para centralizar la autorización. Además, se organiza la lógica de base de datos en una clase Database que incluye métodos como get() para obtener datos.
+
+3.5. Introducción a Formularios y Métodos de Request
+Se construyen formularios que envían datos usando el método POST. Se usa $_SERVER['REQUEST_METHOD'] para identificar si el request es GET o POST y realizar acciones basadas en el método utilizado.
+
+3.6. Escapar Input No Confiable
+Se asegura que el input de los usuarios sea seguro usando htmlspecialchars() para evitar inyecciones de código, especialmente en elementos como <script> que podrían romper el sistema.
+
+3.7. Introducción a la Validación de Formularios
+Se valida el input antes de guardarlo en la base de datos. Se verifica que los campos no estén vacíos y que cumplan con restricciones como longitud máxima de caracteres.
+
+3.8. Extraer una Clase de Validación
+Se refactoriza la lógica de validación en una clase Validator con métodos reutilizables como Validator::email(), permitiendo un código más limpio y modular.
+
+
+
+CAPITULO 4 Project organization
+4.1 Resourceful Naming Convention
+Muestra como conviene nombrar los repositiorios y los archivos, por ejemplo envez de nombrar el view de notes notes.view.about.php es mejor meter en una carpeta llamada "notes" y adentro meter notes.view.about.php y renombrar a view.about.php.
+
+4.2 PHP Autoloading and Extraction
+Mostro la utilidad de crear una constante "const BASE_PATH = __DIR__ . / ../;" la barra / ../ es basicamente para subir un directorio mas. luego con eso se utiliza para siempre relacionar los path de los archivos. Luego dentro del archivo functions.php crea dos funciones helper, nombradas "function base_path($path){ return BASE_PATH . $path;" y "function view($path, $attributes = []){extract($attributes); require base_path('/views/' . $path)}". La función extract() se utiliza para convertir los elementos de un array en variable individuales.
+
+4.3 Namespacing: Whay,Why,How?
+Namespaces en PHP permiten organizar el código en diferentes espacios de nombres, evitando conflictos entre clases, funciones o constantes con el mismo nombre. Son útiles para mantener el código ordenado y evitar colisiones en proyectos grandes.
+
+4.4 Handle Multiple Request Methods from controller Action
+
+ se aborda cómo manejar diferentes tipos de solicitudes HTTP para acciones en un controlador, como eliminar notas. Se destaca la importancia de utilizar métodos adecuados (POST o DELETE) en lugar de GET para operaciones que modifican datos. Además, se explica cómo actualizar el enrutador y el controlador para manejar correctamente estas solicitudes, validar la autorización del usuario antes de realizar cambios, y redirigir al usuario a la página correcta después de la acción. El capítulo también prepara al lector para implementar autenticación y autorización en futuras secciones.
+
+4.5 Build a Better Router
+ se aborda cómo mejorar una clase de enrutador para manejar diferentes tipos de solicitudes HTTP, como GET, POST, DELETE y PATCH. Se explica cómo hacer que el enrutador sea más intuitivo al asociar cada tipo de solicitud con acciones específicas en los controladores. También se muestra cómo optimizar el código para que sea más claro y fácil de mantener, utilizando métodos que gestionen estos tipos de solicitudes de manera independiente. Además, se introduce el concepto de visibilidad en programación orientada a objetos, destacando la importancia de proteger ciertos datos dentro de la clase para evitar el acceso innecesario desde fuera. El capítulo concluye con ejemplos de cómo aplicar estas mejoras en una aplicación, asegurando que las solicitudes se gestionen correctamente y que las rutas y controladores respondan adecuadamente a cada tipo de petición.
+
+4.6 One Request, One Controller
+En este cap, muestra la importantancia de tener un controller file para cada request,ej:
+controllers/notes
+aqui dentro se encuentran create.php, destroy.php,show.php,store.php etc donde cada uno de ellos se encarga de hacer un request solo ya sea POST,GET,DELETE,PATCH , es una forma de ser mas ordenado
+	
+4.7 Make your first service container
+Un contenedor de servicios (o service container) es un patrón de diseño utilizado para gestionar la creación y la resolución de dependencias en una aplicación. Su propósito principal es desacoplar el código y facilitar la inyección de dependencias.
+
+¿Por qué usar un contenedor?
+Desacoplamiento: Permite que las clases no dependan directamente de las implementaciones específicas de sus dependencias.
+Flexibilidad: Facilita la modificación de dependencias sin cambiar el código que las usa.
+Gestión centralizada: Permite configurar y gestionar las dependencias en un solo lugar.
+Principales Funciones de un Contenedor:
+Registro de Dependencias: Asociar identificadores (claves) con funciones que crean instancias de servicios o clases.
+Resolución de Dependencias: Obtener instancias de servicios o clases a través de identificadores.
