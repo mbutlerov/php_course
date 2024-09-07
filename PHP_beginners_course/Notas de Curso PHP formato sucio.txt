@@ -98,3 +98,37 @@ Gestión centralizada: Permite configurar y gestionar las dependencias en un sol
 Principales Funciones de un Contenedor:
 Registro de Dependencias: Asociar identificadores (claves) con funciones que crean instancias de servicios o clases.
 Resolución de Dependencias: Obtener instancias de servicios o clases a través de identificadores.
+
+4.9 Updating With PATCH Requests
+ aprendemos a añadir la capacidad de actualizar notas existentes en una aplicación web. Primero, configuramos rutas específicas en el archivo de rutas para manejar solicitudes de edición y actualización. En el controlador, implementamos métodos para cargar la nota que se va a editar, utilizando el identificador de la nota para buscarla en la base de datos. La vista de edición presenta un formulario que incluye un campo oculto para el ID de la nota y campos editables para el título y el contenido. Al enviar el formulario, se utiliza una solicitud PATCH para enviar los datos modificados al servidor. El controlador valida estos datos para asegurar que cumplen con los requisitos antes de actualizar la nota en la base de datos. Esta validación y actualización son esenciales para mantener la integridad de los datos y permitir una experiencia de usuario fluida.
+
+Chapter 5 - Sessions and Authentication
+
+5.1 PHP Sessions 101
+Introduccion a sesiones explicando que una sesión en el contexto de un sitio web es un periodo de interacción de un usuario con la aplicación. PHP permite manejar datos de sesión utilizando la superglobal $_SESSION. Para que los datos persistan entre páginas, primero se debe iniciar la sesión con session_start(). Las sesiones no son permanentes y los datos de sesión se almacenan temporalmente en un archivo del servidor y se identifican a través de una cookie en el navegador. Cuando la cookie o la sesión expiran, la información se pierde. Este capítulo sienta las bases para la creación de un sistema de login en episodios posteriores.
+
+Conceptos Importantes:
+Iniciar Sesión: Es necesario iniciar una sesión antes de manipular $_SESSION.
+Superglobal $_SESSION: Actúa como un array para almacenar y recuperar datos.
+Cookie de Sesión: Se almacena en el navegador y su valor identifica la sesión en el servidor.
+Temporalidad: Los datos de sesión son temporales y se eliminan al cerrar el navegador o por configuración.
+
+Ejemplo
+<?php
+// Iniciar sesión
+session_start();
+
+// Guardar valor en la sesión
+$_SESSION['name'] = 'Jeffrey';
+
+// Recuperar valor de la sesión
+if (isset($_SESSION['name'])) {
+    echo "Hello, " . $_SESSION['name'];
+} else {
+    echo "Hello, Guest";
+}
+
+// Cerrar sesión
+session_destroy();
+?>
+

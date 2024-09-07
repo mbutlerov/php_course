@@ -684,3 +684,77 @@ $logger->log('This is a test message.'); // Salida: Logging message: This is a t
 
 
 
+
+## Chapter 5 - Sessions and Authentication
+
+### 5.1 PHP Sessions 101
+
+**Sessions:** Una sesión en PHP es un mecanismo que permite almacenar datos específicos del usuario en el servidor y mantener la persistencia de esos datos entre diferentes peticiones HTTP. A diferencia de las cookies, donde los datos se almacenan en el lado del cliente, las sesiones permiten almacenar información sensible en el servidor, lo que mejora la seguridad y el control de los datos.
+
+***Almacenamiento de infomacion en variables de sesion:*** Cuando una sesión está activa, podemos guardar información relevante del usuario, como su nombre o su rol, en variables dentro de la superglobal `$_SESSION`. Estas variables persisten mientras dure la sesión, permitiendo que el servidor recuerde datos entre diferentes visitas o interacciones del usuario.
+
+  - ***Inicio de sesión***: El primer paso para usar sesiones es llamar a `session_start()`, lo que crea una sesión o recupera una existente.
+  - ***Almacenamiento de datos:*** Una vez iniciada la sesión, los datos del usuario pueden almacenarse en variables dentro de la superglobal $_SESSION. Esta superglobal actúa como un array asociativo donde se guardan y persisten los datos mientras dure la sesión.
+  - ***Acceso y modificacion:*** Estos datos almacenados en `$_SESSION`pueden leerse, actualizarse o eliminarse en cualquier momento durante la sesión.
+  - ***Ubicacion de Archivos de sesion en el servidor:***  La información de la sesión se guarda en archivos individuales en el servidor. La ubicación predeterminada de estos archivos puede ser consultada con:
+```bash
+php --info | grep session.save_path
+```
+Si no tiene un valor específico, el camino es el directorio temporal predeterminado, que se puede leer con:
+
+```bash
+echo $TMPDIR
+```
+
+Normalmente, los archivos de sesión comienzan con `sess_` seguido de un identificador único.
+
+**Ejemplo Básico**
+
+1. ***Inicio de la Sesión y Almacenamiento de Datos (`set_session.php`)***
+```php
+<?php
+session_start();  // Inicia la sesión o la recupera si ya existe
+
+// Almacena datos en la sesión
+$_SESSION['username'] = 'johndoe';
+$_SESSION['user_id'] = 123;
+$_SESSION['user_data'] = array(
+    'first_name' => 'John',
+    'last_name' => 'Doe',
+    'email' => 'johndoe@example.com'
+);
+
+// Mensaje de confirmación
+echo 'Datos de sesión guardados. <a href="get_session.php">Ver sesión</a> | <a href="end_session.php">Eliminar sesión</a>';
+?>
+```
+2. ***Acceso a los datos de la sesión (`get_session.php`)***
+```php
+<?php
+session_start();  // Inicia la sesión o la recupera si ya existe
+
+// Verifica si hay datos en la sesión
+if (isset($_SESSION['username'])) {
+    echo 'Nombre de usuario: ' . $_SESSION['username'] . '<br>';
+    echo 'ID de usuario: ' . $_SESSION['user_id'] . '<br>';
+    echo 'Correo electrónico: ' . $_SESSION['user_data']['email'] . '<br>';
+} else {
+    echo 'No hay datos en la sesión.';
+}
+?>
+```
+3.***Eliminación de Datos de la Sesión (`end_session.php`)***
+```php
+<?php
+session_start();  // Inicia la sesión o la recupera si ya existe
+
+// Elimina todas las variables de sesión
+session_unset();
+
+// Destruye la sesión
+session_destroy();
+
+// Mensaje de confirmación
+echo 'Sesión eliminada. <a href="set_session.php">Iniciar sesión nuevamente</a>';
+?>
+```
