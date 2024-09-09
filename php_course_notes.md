@@ -2,6 +2,10 @@
 # Php for beginners course 
 Link: https://laracasts.com/series/php-for-beginners-2023-edition
 
+Link a documentación no oficial: https://www.w3schools.com/php/
+
+Link a documentación oficial: https://www.php.net/docs.php
+
 ## Indice
 [Chapter 1 - The fundamentals](#chapter-1---the-fundamentals)
 - [1.1 PHP Tag](#11-php-tag)
@@ -33,12 +37,12 @@ Link: https://laracasts.com/series/php-for-beginners-2023-edition
 
 ## Chapter 1 - The fundamentals
 
-**1.1 PHP tag:** el codigo se escribe entre las etiquetas 
+**1.1 PHP tag:** el código se escribe entre las etiquetas 
 "<?php" "?>"
 
 **1.2 Variables:**
 Las variables en PHP se definen con el símbolo $ y pueden almacenar diferentes tipos de datos, como cadenas, enteros y arrays.
-```
+```php
 <?php
 $nombre = "Juan";
 $edad = 30;
@@ -47,16 +51,18 @@ echo "Nombre: $nombre, Edad: $edad";
 ```
 ***obs:***
 Al usar Comillas dobles (" "), PHP evalua las variables dentro de la cadena y al usar comillas simples (' '),PHP no evalua las variables y las trata como texto literal
-```
+```php
+<?php
 $nombre = "Ana";
 echo "Hola, $nombre"; // Imprime "Hola, Ana"
 
 $nombre = "Ana";
 echo 'Hola, $nombre'; // Imprime "Hola, $nombre"
+?>
 ```
 
 **1.3 Conditionals and Booleans**
-```
+```php
 <?php
 $nombre_libro = "Dark Matter";
 $leido = true;
@@ -72,13 +78,14 @@ echo $mensaje;
 
 ```
 **1.4 Arrays:**
-```
+```php
+<?php
 //Creacion de array
 $libros = [
     "Do Androids Dream of Electric Sheep",
     "The Langoliers",
      "Project Hail Mary"];
-
+?>
 //Impresion de elementos
 <ul>
 <?php foreach ($libros as $libro): ?>
@@ -95,7 +102,7 @@ $libros = [
 ```
 
 **1.5 Associative arrays:** Similar a los diccionarios de Python.
-```
+```php
 <?php
 $persona = array("nombre" => "Ana", "edad" => 25);
 echo $persona["nombre"]; // Imprime "Ana"
@@ -106,7 +113,7 @@ echo $persona["nombre"]; // Imprime "Ana"
 **1.6 Functions and filters:** Similar a los diccionarios de Python.
 
 Ejemplo de Función
-```
+```php
 <?php
 function saludo($nombre) {
     return "Hola, $nombre!";
@@ -117,7 +124,7 @@ echo saludo("Carlos"); // Imprime "Hola, Carlos!"
 ```
 
 Ejemplo de filtro utilizando comparacion estricta "==="
-```
+```php
 <?php
 function esPar($numero) {
     if ($numero % 2 === 0) {
@@ -140,7 +147,7 @@ echo esPar(7); // Imprime "7 es un número impar."
     **Definición:** Funciones sin nombre y Pueden ser asignadas a variables y pasadas como parámetros.
 
     **Syntax**
-    ```
+    ```php
     <?php
     $nombreVariable = function() {
         // Código a ejecutar
@@ -149,11 +156,13 @@ echo esPar(7); // Imprime "7 es un número impar."
 
     ```
     Ejemplo Básico:
-    ```
+    ```php
+    <?php
     $miFuncion = function() {
     echo '¡Hola Mundo!';
     };
     $miFuncion(); // Llama a la función anónima
+    ?>
     ```
 - 1.7.2 Uso como parámetros en otras funciones:
 
@@ -162,7 +171,8 @@ echo esPar(7); // Imprime "7 es un número impar."
     Esto es útil para definir comportamientos específicos al momento de la  llamada. 
     
     **Ejemplo de Uso de parámetro**
-    ```
+    ```php
+    <?php
     function ejecutar($funcion) {
     $funcion();
     }
@@ -170,7 +180,7 @@ echo esPar(7); // Imprime "7 es un número impar."
     ejecutar(function() {
         echo '¡Hola Mundo!';
     });
-
+    ?>
     ```
 - 1.7.3 Asignación a variables:
 
@@ -227,7 +237,7 @@ echo esPar(7); // Imprime "7 es un número impar."
     - Crea un archivo ***index.php*** para la lógica.
     - Este archivo manejará la preparación de datos y la lógica que luego utilizará ***index.view.php***.
     - Para cargar el view se utiliza ***require*** es similar en django cuando se incluye un template de header ***"%include header.html%"*** solo que aqui es require.
-```
+```php
 <?php
 // index.php
 $libros = [
@@ -240,15 +250,12 @@ $libros = [
 $librosFiltrados = $libros; // Ejemplo simple
 require 'index.view.php'; // Cargar el template
 ?>
-
-
-
 ```
 
 - Archivo HTML
     - Crea un archivo ***index.view.php*** que contenga solo el HTML.
     - Este archivo usará los datos preparados en ***index.php***.
-```
+```php
 <!-- index.view.php -->
 <!DOCTYPE html>
 <html>
@@ -261,7 +268,6 @@ require 'index.view.php'; // Cargar el template
     <?php endforeach; ?>
 </body>
 </html>
-
 
 ```
 ## Chapter 2 - Dynamic Web Applications
@@ -295,8 +301,7 @@ require 'index.view.php'; // Cargar el template
     -  ***Organización del Código:*** Separa la lógica de enrutamiento y manejo de errores en funciones y archivos específicos para mantener el código limpio y modular.
  ***Codigo Ejemplo***
 1. `index.php`:
-
-        
+```php
         <?php
         require 'functions.php';
         require 'router.php';
@@ -306,9 +311,10 @@ require 'index.view.php'; // Cargar el template
 
         // Enrutar la solicitud
         route($requestUri);
+```
 
 2. `router.php`
-    ```
+  ```php
     <?php
     function route($path) {
         // Mapa de rutas
@@ -329,7 +335,7 @@ require 'index.view.php'; // Cargar el template
         }
     }
 
-    ```
+  ```
 
 3. `views/404.php`
     ```
@@ -360,6 +366,7 @@ require 'index.view.php'; // Cargar el template
 ### **Ejemplo Básico:**
 
 ```php
+<?php
 // Conexión a la base de datos
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=testdb', 'username', 'password');
@@ -395,7 +402,7 @@ try {
    - Utiliza excepciones para capturar y mostrar errores de conexión y consulta.
 
 **Ejemplo:**
-
+```php
     <?php
     class Database {
     private $pdo;
@@ -425,6 +432,7 @@ try {
     $db = new Database('mysql:host=localhost;dbname=testdb', 'username', 'password');
     $users = $db->query('SELECT * FROM users WHERE id = :id', ['id' => 1]);
     print_r($users);
+```
 
 
 
@@ -436,20 +444,23 @@ try {
 **PlaceHolders/Wild card:** se utilizan principalmente en consultas preparadas para interactuar con bases de datos. Son marcadores de posición que se reemplazan por valores reales en tiempo de ejecución, lo que ayuda a evitar ataques de inyección SQL y mejora la seguridad y eficiencia de las consultas.
 - **Tipos de placeholders:**
   - ***Placeholders Posicionales (?):*** Estos son símbolos de interrogación que se usan como marcadores de posición y se reemplazan en el orden en que aparecen.
-```
+```php
+<?php
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
     $stmt->execute([1]); // Reemplaza el primer '?' por el valor '1'
     $result = $stmt->fetch();
 ```
 
   - ***Placeholders Nombrados (:nombre):*** Son marcadores de posición nombrados, lo que permite asociar explícitamente un valor con un nombre.
-```
+```php
+<?php
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
     $stmt->execute(['id' => 1]); // Reemplaza ':id' por el valor '1'
     $result = $stmt->fetch();
 ```
   ***Ejemplo básico***
-```
+```php
+<?php
   // Conectarse a la base de datos usando PDO
   $pdo = new PDO('mysql:host=localhost;dbname=testdb', 'user', 'password');
 
@@ -473,7 +484,7 @@ se centra en la creación de un proyecto de notas donde los usuarios pueden escr
   - ***Como funciona:***cuando se llama a `extract($array)`, PHP crea una variable para cada elemento en el array `$array`. El nombre de la variable será la clave del array, y el valor de la variable será el valor correspondiente en el array.
 - ***Ejemplo***
 index.php
-```
+```php
 <?php
 // Datos del usuario
 $userData = [
@@ -494,7 +505,7 @@ view('profile.php', $userData);
 
 ```
 profile.php
-```
+```php
 <!DOCTYPE html>
 <html>
 <head>
@@ -509,15 +520,15 @@ profile.php
 ```
 
 **function compact():** toma un array asociativo y convierte sus claves en nombres de variables.
-```
+```php
+<?php
 $name = "John";
 $age = 25;
 $city = "New York";
 
 $data = compact('name', 'age', 'city');
 // $data es ahora ['name' => 'John', 'age' => 25, 'city' => 'New York']
-
-
+?>
 ```
 
 ### 4.2 Namespacing: Whay,Why,How?
@@ -554,7 +565,7 @@ project/
    }
     ```
 2. **Archivo src/Product.php:**
-```
+```php
 <?php
 namespace App\Inventory;
 
@@ -565,7 +576,7 @@ class Product {
 }
 ```
 3. **Archivo index.php:**
-```
+```php
 <?php
 require_once 'src/User.php';
 require_once 'src/Product.php';
@@ -758,3 +769,14 @@ session_destroy();
 echo 'Sesión eliminada. <a href="set_session.php">Iniciar sesión nuevamente</a>';
 ?>
 ```
+
+### 5.2 Introduction to Middleware 
+**Middleware:** es una capa de software que se ejecuta entre la solicitud de un cliente y la respuesta de un servidor. El middleware actúa como un "intermediario" que procesa la solicitud HTTP y decide si debe continuar hacia el controlador o responder directamente (por ejemplo, redirigiendo al usuario a otra página).
+
+***Funcionamiento:*** Cuando un cliente realiza una solicitud a una aplicación web, la solicitud pasa por una serie de middleware, cada uno ejecutando su propia lógica. Esta lógica puede ser:
+
+- Interrumpir la solicitud (ejemplo: redirigir a una página de inicio de sesión si el usuario no está autenticado).
+- Modificar la solicitud (ejemplo: adjuntar datos adicionales como información del usuario).
+- Dejar que la solicitud continúe hacia el controlador sin cambios.
+
+**Ejemplo de middleware en PHP:** [middleware](./Examples/middleware.md)

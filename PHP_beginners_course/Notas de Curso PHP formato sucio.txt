@@ -132,3 +132,39 @@ if (isset($_SESSION['name'])) {
 session_destroy();
 ?>
 
+5.2 Register a new user
+
+Preparar la ruta de registro:
+
+Se crea una ruta en el controlador para manejar la creación de un nuevo usuario (registration/create).
+Se genera una vista simple para registrar usuarios, utilizando una plantilla HTML básica.
+Agregar un formulario de registro:
+
+Se utiliza una plantilla de Tailwind UI para el formulario de registro.
+Se ajustan los campos y se eliminan elementos innecesarios como el banner.
+El formulario incluye campos de email y contraseña.
+Validación del formulario:
+
+Se añade la lógica de validación para el email y la contraseña:
+El email debe ser válido.
+La contraseña debe tener entre 7 y 255 caracteres.
+Si hay errores de validación, se muestra un mensaje de error en la vista.
+Proceso de registro:
+
+Cuando el usuario envía el formulario, se verifica si ya existe un usuario con el mismo email en la base de datos:
+Si el usuario ya existe, se redirige a la página de login (aún no creada).
+Si no existe, se guarda el nuevo usuario en la base de datos.
+Gestión de la sesión:
+
+Una vez creado el usuario, se inicia una sesión para ese usuario.
+Se almacena el email del usuario en la sesión.
+Se redirige al usuario a la página de inicio o a su panel privado.
+Mejoras futuras:
+
+Se menciona que en episodios futuros se trabajará en mejorar la seguridad de las contraseñas (hashing).
+Se trabajará en la limpieza y organización del código para hacerlo más modular y reutilizable.
+Integración en la navegación:
+
+Si el usuario está registrado, se muestra un avatar en lugar del enlace de registro.
+Si no está registrado, se muestra un enlace para registrarse o iniciar sesión.
+Este capítulo cubre desde la creación básica de un formulario de registro hasta la gestión de sesiones para usuarios registrados.
