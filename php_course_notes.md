@@ -779,4 +779,4 @@ echo 'Sesión eliminada. <a href="set_session.php">Iniciar sesión nuevamente</a
 - Modificar la solicitud (ejemplo: adjuntar datos adicionales como información del usuario).
 - Dejar que la solicitud continúe hacia el controlador sin cambios.
 
-**Ejemplo de middleware en PHP:** [middleware](.PHP_beginners_course/Examples/middleware.md)
+**Ejemplo de middleware en PHP:** [middleware](./PHP_beginners_course/Examples/middleware.md)
